@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.navbar-container {
+    position: fixed;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.navbar-container.not-sticky {
+    position: absolute;
+}
+
+.navbar-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #070e1b 0%, #0c1527 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 20px 40px -4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    user-select: none;
+    font-family: 'DM Sans', sans-serif;
+    animation: slideInDown 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    /* Increased padding */
+    border-radius: 9999px;
+    text-decoration: none;
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+    color: #60a5f7;
+    white-space: nowrap;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The Expanding Pill Background */
+.pill-bg {
+    position: absolute;
+    left: 11px;
+    /* Center adjusted for bigger icons */
+    top: 3px;
+    bottom: 3px;
+    width: 34px;
+    /* Slightly wider start for bigger icon */
+    background: linear-gradient(90deg, #60a5f7 0%, #4468ff 100%);
+    border-radius: 9999px;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+        width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease,
+        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item.active .pill-bg {
+    opacity: 1;
+    width: calc(100% - 8px);
+    left: 4px;
+    transform: scale(1);
+}
+
+.nav-item.active {
+    color: #04050c;
+}
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin: 0 4px;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.nav-text {
+    font-size: 0.95rem;
+    /* Increased font-size */
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    margin-left: 0;
+    z-index: 2;
+    transition:
+        max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease,
+        margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item.active .nav-text {
+    max-width: 140px;
+    opacity: 1;
+    margin-left: 6px;
+}
+
+/* Cleanup */
+.nav-active-pill {
+    display: none;
+}
+
+/* Dashboard Dropdown Styles */
+.dashboard-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding-top: 8px;
+    background: transparent;
+    z-index: 100;
+}
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #0c1527 0%, #070e1b 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-header {
+    position: relative;
+    z-index: 1;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: inherit;
+}
+
+.dropdown-item:hover {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+}

@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/.env
+
+# Frontend (has its own .gitignore too)
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+
+# IDE
+.vscode/
+.idea/

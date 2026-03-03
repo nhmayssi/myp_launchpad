@@ -1,0 +1,474 @@
+/* About Page Styles */
+
+.about-page {
+    background-color: #050a18;
+    color: #ffffff;
+    min-height: 100vh;
+    font-family: var(--font-dm-sans), sans-serif;
+    position: relative;
+}
+
+/* Logo */
+.about-logo {
+    position: absolute;
+    top: 3rem;
+    left: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    z-index: 100;
+}
+
+.about-logo .logo-img {
+    height: 32px;
+    width: auto;
+}
+
+.about-logo .logo-text {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: #60a5fa;
+    text-transform: uppercase;
+    font-family: 'Neue Machina', var(--font-dm-sans), sans-serif;
+}
+
+/* Simple Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.8));
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Container */
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Hero Section */
+.about-hero {
+    padding: 12rem 2rem 6rem;
+    text-align: center;
+    background: radial-gradient(circle at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+}
+
+.about-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.about-lead {
+    font-size: 1.3rem;
+    color: #9ca3af;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Section Styles */
+.about-section {
+    padding: 6rem 2rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.section-icon {
+    color: #60a5fa;
+    flex-shrink: 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.section-title.centered {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* Problem Section */
+.problem-section {
+    background:
+        radial-gradient(circle at 10% 10%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
+        radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.content-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.3s ease;
+}
+
+.content-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateY(-5px);
+}
+
+.content-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #60a5fa;
+}
+
+.content-card p {
+    color: #d1d5db;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Solution Section */
+.solution-section {
+    background: #050a18;
+}
+
+.solution-intro {
+    font-size: 1.2rem;
+    color: #d1d5db;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    max-width: 900px;
+}
+
+.solution-features {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateX(10px);
+}
+
+.feature-icon {
+    color: #60a5fa;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.feature-content h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.feature-content p {
+    color: #d1d5db;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Mission Section */
+.mission-section {
+    background: radial-gradient(circle at center, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
+}
+
+.mission-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mission-quote {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #60a5fa;
+    margin: 0 0 2rem 0;
+    padding: 2rem;
+    border-left: 4px solid #60a5fa;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 12px;
+    font-style: italic;
+}
+
+.mission-text {
+    font-size: 1.1rem;
+    color: #d1d5db;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Impact Section */
+.impact-section {
+    background: #050a18;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.impact-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.impact-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateY(-5px);
+}
+
+.impact-number {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #60a5fa;
+    margin-bottom: 1rem;
+    line-height: 1;
+}
+
+.impact-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.impact-description {
+    font-size: 0.95rem;
+    color: #9ca3af;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Contact Section */
+.contact-section {
+    background:
+        radial-gradient(circle at bottom, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+}
+
+.contact-intro {
+    font-size: 1.2rem;
+    color: #d1d5db;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-methods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateY(-5px);
+}
+
+.contact-icon {
+    color: #60a5fa;
+    margin-bottom: 1.5rem;
+}
+
+.contact-card h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.contact-card p {
+    color: #d1d5db;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Disclaimer Section */
+.disclaimer-section {
+    background: #050a18;
+    padding: 4rem 2rem;
+}
+
+.disclaimer-box {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.disclaimer-text {
+    color: #d1d5db;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.disclaimer-text strong {
+    color: #60a5fa;
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .about-title {
+        font-size: 3.5rem;
+    }
+
+    .content-grid,
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-methods {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-logo {
+        left: 2rem;
+        top: 2rem;
+    }
+
+    .about-hero {
+        padding: 10rem 1.5rem 4rem;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+    .about-lead {
+        font-size: 1.1rem;
+    }
+
+    .about-section {
+        padding: 4rem 1.5rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .content-card,
+    .feature-item {
+        padding: 2rem;
+    }
+
+    .feature-item {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .mission-quote {
+        font-size: 1.3rem;
+        padding: 1.5rem;
+    }
+
+    .impact-number {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .content-card h3,
+    .feature-content h4 {
+        font-size: 1.25rem;
+    }
+
+    .mission-quote {
+        font-size: 1.1rem;
+    }
+}

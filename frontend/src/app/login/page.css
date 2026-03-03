@@ -1,0 +1,207 @@
+/* Login Page Styles - matches signup aesthetic */
+
+.login-page {
+    background-color: #050a18;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    position: relative;
+    overflow-x: hidden;
+    font-family: var(--font-dm-sans), sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 650px;
+    padding: 2rem;
+    z-index: 10;
+}
+
+.login-card {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 3.5rem;
+    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.card-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+}
+
+.card-header p {
+    color: #94a3b8;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Error Message */
+.error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Styles */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #60a5fa;
+    opacity: 0.6;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.85rem 1.25rem 0.85rem 3.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+.input-group input:focus {
+    border-color: #60a5fa;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1);
+}
+
+.input-group input::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+}
+
+/* Submit Button */
+.submit-btn {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #60a5fa;
+    color: #050a18;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px -5px rgba(96, 165, 250, 0.4);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(96, 165, 250, 0.5);
+    background: #ffffff;
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Footer / Switch Link */
+.auth-switch {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #94a3b8;
+}
+
+.switch-link {
+    color: #60a5fa;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.switch-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Background Blobs */
+.login-page::before,
+.login-page::after {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+.login-page::before {
+    top: -100px;
+    right: -200px;
+}
+
+.login-page::after {
+    bottom: -200px;
+    left: -200px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-page {
+        padding-top: 80px;
+    }
+
+    .login-card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .card-header h1 {
+        font-size: 2.2rem;
+    }
+}

@@ -1,0 +1,346 @@
+.resources-page {
+    min-height: 100vh;
+    background-color: #050a18;
+    /* Matched Home Page background */
+    color: white;
+    padding: 160px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resources-header {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 60px;
+}
+
+.resources-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #60a5fa;
+    /* Signature Blue */
+}
+
+.resources-description {
+    font-size: 1.15rem;
+    color: #9ca3af;
+    /* Matched Home Page text color */
+    line-height: 1.6;
+}
+
+.framework-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.concept-card {
+    background: rgba(15, 23, 42, 0.5);
+    /* Matched Home Page card background */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Matched Home Page card border */
+    border-radius: 24px;
+    padding: 40px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.concept-card:hover {
+    transform: translateY(-8px);
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    background: rgba(96, 165, 250, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    /* Matched Home Page blue */
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.concept-card:hover .card-icon-wrapper {
+    background: rgba(96, 165, 250, 0.2);
+    transform: scale(1.1);
+    color: #60a5fa;
+}
+
+.concept-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.concept-card p {
+    font-size: 1rem;
+    color: #9ca3af;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.explore-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #60a5fa;
+    /* Matched Home Page blue */
+    transition: gap 0.3s ease;
+}
+
+.concept-card:hover .explore-link {
+    gap: 12px;
+}
+
+/* Retractable Sidebar (Drawer) */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.drawer-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    background: #050a18;
+    /* Matched Page background */
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2001;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.drawer-overlay.open+.drawer-content,
+.drawer-content.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    flex-shrink: 0;
+    padding: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-drawer {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.close-drawer:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.drawer-body {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    overscroll-behavior: contain;
+    /* Prevents background scroll when sidebar reaches end */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth touch scroll */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(96, 165, 250, 0.3) transparent;
+}
+
+.drawer-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.drawer-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.drawer-body::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.2);
+    border-radius: 10px;
+}
+
+.drawer-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(96, 165, 250, 0.4);
+}
+
+.drawer-body h2.drawer-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    background: linear-gradient(to right, #ffffff, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Markdown Content Styling */
+.markdown-content {
+    color: #cbd5e1;
+    line-height: 1.8;
+}
+
+.markdown-content h3 {
+    font-size: 1.5rem;
+    color: #60a5fa;
+    margin: 40px 0 20px;
+    font-weight: 700;
+}
+
+.markdown-content h4 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 30px 0 15px;
+    font-weight: 600;
+}
+
+.markdown-content p {
+    margin-bottom: 20px;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin-bottom: 24px;
+    padding-left: 20px;
+}
+
+.markdown-content li {
+    margin-bottom: 12px;
+}
+
+.markdown-content strong {
+    color: #fff;
+}
+
+/* Table Styling */
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 0.95rem;
+    background: rgba(15, 23, 42, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.markdown-content th {
+    background: rgba(96, 165, 250, 0.1);
+    color: #60a5fa;
+    text-align: left;
+    padding: 16px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.markdown-content td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.markdown-content tr:last-child td {
+    border-bottom: none;
+}
+
+/* Horizontal Rule */
+.markdown-content hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(96, 165, 250, 0.3), transparent);
+    margin: 40px 0;
+}
+
+/* Blockquote */
+.markdown-content blockquote {
+    border-left: 4px solid #60a5fa;
+    background: rgba(96, 165, 250, 0.05);
+    padding: 20px 24px;
+    margin: 30px 0;
+    border-radius: 0 12px 12px 0;
+    font-style: italic;
+}
+
+.bottom-note {
+    margin-top: 60px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(68, 104, 255, 0.1));
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.bottom-note p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.bottom-note strong {
+    color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+    .resources-title {
+        font-size: 2.5rem;
+    }
+
+    .framework-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .drawer-content {
+        max-width: 100%;
+    }
+
+    .drawer-body h2.drawer-title {
+        font-size: 2.2rem;
+    }
+}
