@@ -111,7 +111,11 @@ export default function AiTutor() {
         setInputValue('');
         setIsLoading(true);
 
-        // Send to backend
+        // Add an empty assistant message that we'll stream into
+        const aiMessage = { role: 'assistant', content: '' };
+        setMessages(prev => [...prev, aiMessage]);
+
+        // Send to backend and stream the response
         try {
             const response = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
@@ -122,16 +126,75 @@ export default function AiTutor() {
                 })
             });
 
-            const data = await response.json();
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
 
-            // Add AI response to UI
-            const aiMessage = { role: 'assistant', content: data.answer };
-            setMessages(prev => [...prev, aiMessage]);
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+
+                // Process complete SSE events from the buffer
+                const lines = buffer.split('\n');
+                buffer = lines.pop(); // Keep incomplete line in buffer
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const eventData = line.slice(6); // Remove 'data: ' prefix
+
+                        if (eventData === '[DONE]') {
+                            // Stream complete
+                            break;
+                        }
+
+                        try {
+                            const parsed = JSON.parse(eventData);
+                            if (parsed.chunk) {
+                                // Append chunk to the last message (assistant)
+                                setMessages(prev => {
+                                    const updated = [...prev];
+                                    const lastMsg = updated[updated.length - 1];
+                                    updated[updated.length - 1] = {
+                                        ...lastMsg,
+                                        content: lastMsg.content + parsed.chunk
+                                    };
+                                    return updated;
+                                });
+                            } else if (parsed.error) {
+                                // Handle streamed error
+                                setMessages(prev => {
+                                    const updated = [...prev];
+                                    updated[updated.length - 1] = {
+                                        ...updated[updated.length - 1],
+                                        content: `⚠️ ${parsed.error}`
+                                    };
+                                    return updated;
+                                });
+                            }
+                        } catch (e) {
+                            // Skip malformed JSON lines
+                        }
+                    }
+                }
+            }
 
             // Refresh chat list
             fetchChats(user.id);
         } catch (error) {
             console.error('Error sending message:', error);
+            // Update the empty assistant message with error
+            setMessages(prev => {
+                const updated = [...prev];
+                if (updated.length > 0 && updated[updated.length - 1].role === 'assistant' && !updated[updated.length - 1].content) {
+                    updated[updated.length - 1] = {
+                        ...updated[updated.length - 1],
+                        content: '⚠️ Failed to connect. Please try again.'
+                    };
+                }
+                return updated;
+            });
         } finally {
             setIsLoading(false);
         }
@@ -238,21 +301,20 @@ export default function AiTutor() {
                     ) : (
                         <div className="messages-list">
                             {messages.map((msg, index) => (
-                                <div key={index} className={`message ${msg.role}`}>
+                                <div key={index} className={`message ${msg.role}${isLoading && index === messages.length - 1 && msg.role === 'assistant' ? ' streaming' : ''}`}>
                                     <div className="message-content">
                                         {msg.role === 'assistant' ? (
-                                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                                            msg.content ? (
+                                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                                            ) : (
+                                                isLoading && <span className="thinking-indicator">Thinking...</span>
+                                            )
                                         ) : (
                                             msg.content
                                         )}
                                     </div>
                                 </div>
                             ))}
-                            {isLoading && (
-                                <div className="message assistant loading">
-                                    <div className="message-content">Thinking...</div>
-                                </div>
-                            )}
                         </div>
                     )}
                     <div ref={messagesEndRef} />

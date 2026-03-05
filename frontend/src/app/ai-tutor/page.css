@@ -237,30 +237,31 @@
     border-bottom-left-radius: 4px;
 }
 
-.message.loading {
-    opacity: 0.7;
+/* Streaming message cursor effect */
+.message.assistant.streaming .message-content::after {
+    content: '▊';
+    display: inline;
+    animation: blink-cursor 0.8s step-end infinite;
+    color: #60a5fa;
+    font-weight: 300;
+    margin-left: 2px;
 }
 
-.message.loading .message-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* Thinking indicator */
+.thinking-indicator {
+    color: #94a3b8;
+    font-style: italic;
+    animation: pulse-thinking 1.5s ease-in-out infinite;
 }
 
-.message.loading .message-content::after {
-    content: '';
-    width: 12px;
-    height: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #60a5fa;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes pulse-thinking {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 /* Input Area */

@@ -1,5 +1,7 @@
 import os
-from flask import Flask, request, jsonify
+import json
+import time
+from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS
 from dotenv import load_dotenv
 from supabase import create_client, Client
@@ -10,7 +12,7 @@ from prompt import MYP_SYSTEM_PROMPT
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 # Initialize Clients
 supabase_url = os.getenv("SUPABASE_URL")
@@ -80,40 +82,63 @@ def chat():
             "content": user_message
         }).execute()
 
-        # 6. Generate Response using Gemini with simple retry
-        answer_text = None
-        max_retries = 3
-        
-        for attempt in range(max_retries):
-            try:
-                ai_response = gemini_client.models.generate_content(
-                    model="gemini-flash-latest",
-                    contents=conversation_history,
-                    config={
-                        "system_instruction": MYP_SYSTEM_PROMPT
-                    }
-                )
-                answer_text = ai_response.text
-                break
-            except Exception as e:
-                if "503" in str(e) and attempt < max_retries - 1:
-                    print(f"Model overloaded, retrying in 1s... (Attempt {attempt + 1})")
-                    import time
-                    time.sleep(1)
-                    continue
-                raise e
+        # 6. Stream Response using Gemini with SSE
+        def generate():
+            full_response = ""
+            max_retries = 3
 
-        # 7. Save Gemini's Response to Supabase
-        supabase.table("messages").insert({
-            "chat_id": chat_id,
-            "role": "assistant",
-            "content": answer_text
-        }).execute()
+            for attempt in range(max_retries):
+                try:
+                    stream = gemini_client.models.generate_content_stream(
+                        model="gemini-flash-latest",
+                        contents=conversation_history,
+                        config={
+                            "system_instruction": MYP_SYSTEM_PROMPT
+                        }
+                    )
 
-        # 8. Return the final answer to the Frontend
-        return jsonify({
-            "answer": answer_text
-        })
+                    for chunk in stream:
+                        if chunk.text:
+                            full_response += chunk.text
+                            # Send each chunk as an SSE event
+                            yield f"data: {json.dumps({'chunk': chunk.text})}\n\n"
+
+                    break  # Success, exit retry loop
+                except Exception as e:
+                    if "503" in str(e) and attempt < max_retries - 1:
+                        print(f"Model overloaded, retrying in 1s... (Attempt {attempt + 1})")
+                        time.sleep(1)
+                        continue
+                    # Send error as SSE event
+                    error_msg = str(e)
+                    if "RESOURCE_EXHAUSTED" in error_msg or "429" in error_msg:
+                        yield f"data: {json.dumps({'error': 'Rate limit exceeded. Please wait a moment and try again.'})}\n\n"
+                    else:
+                        yield f"data: {json.dumps({'error': 'An error occurred. Please try again.'})}\n\n"
+                    yield "data: [DONE]\n\n"
+                    return
+
+            # 7. Save the full accumulated response to Supabase
+            if full_response:
+                supabase.table("messages").insert({
+                    "chat_id": chat_id,
+                    "role": "assistant",
+                    "content": full_response
+                }).execute()
+
+            # Signal end of stream
+            yield "data: [DONE]\n\n"
+
+        response = Response(
+            stream_with_context(generate()),
+            content_type='text/event-stream',
+            headers={
+                'Cache-Control': 'no-cache',
+                'X-Accel-Buffering': 'no',
+                'Connection': 'keep-alive',
+            }
+        )
+        return response
     
     except Exception as e:
         error_message = str(e)
