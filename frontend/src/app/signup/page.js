@@ -38,7 +38,7 @@ export default function Signup() {
                 },
             })
             if (error) throw error
-            router.push('/home')
+            router.push('/')
         } catch (error) {
             setErrorMsg(error.message)
         } finally {

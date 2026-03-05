@@ -8,7 +8,7 @@ import { createClient } from '@/utils/supabase/client'
 import './Navbar.css'
 
 const navItems = [
-    { name: 'Home', href: '/home', icon: House },
+    { name: 'Home', href: '/', icon: House },
     { name: 'Resources', href: '/resources', icon: BookText },
     { name: 'AI Tutor', href: '/ai-tutor', icon: MessageSquare },
     { name: 'FAQ', href: '/faq', icon: CircleHelp },
@@ -40,7 +40,7 @@ export default function Navbar() {
     const handleLogout = async () => {
         await supabase.auth.signOut()
         setShowDropdown(false)
-        router.push('/home')
+        router.push('/')
     }
 
     return (

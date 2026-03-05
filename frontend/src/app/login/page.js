@@ -28,7 +28,7 @@ export default function Login() {
                 password,
             })
             if (error) throw error
-            router.push('/home')
+            router.push('/')
         } catch (error) {
             setErrorMsg(error.message)
         } finally {
