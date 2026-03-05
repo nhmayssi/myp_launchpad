@@ -90,7 +90,7 @@ def chat():
             for attempt in range(max_retries):
                 try:
                     stream = gemini_client.models.generate_content_stream(
-                        model="gemini-1.5-flash",
+                        model="gemini-flash-latest",
                         contents=conversation_history,
                         config={
                             "system_instruction": MYP_SYSTEM_PROMPT
