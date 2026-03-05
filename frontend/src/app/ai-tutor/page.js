@@ -116,6 +116,9 @@ export default function AiTutor() {
         setMessages(prev => [...prev, aiMessage]);
 
         // Send to backend and stream the response
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+
         try {
             const response = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
@@ -123,8 +126,26 @@ export default function AiTutor() {
                 body: JSON.stringify({
                     content: messageContent,
                     chat_id: chatId
-                })
+                }),
+                signal: controller.signal
             });
+
+            if (!response.ok) {
+                // Backend returned an error (404, 500, etc.)
+                let errorMsg = '⚠️ Server error. Please try again later.';
+                try {
+                    const errData = await response.json();
+                    if (errData.answer) errorMsg = errData.answer;
+                } catch (e) { /* ignore parse error */ }
+                setMessages(prev => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = { ...updated[updated.length - 1], content: errorMsg };
+                    return updated;
+                });
+                clearTimeout(timeoutId);
+                setIsLoading(false);
+                return;
+            }
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
@@ -184,18 +205,22 @@ export default function AiTutor() {
             fetchChats(user.id);
         } catch (error) {
             console.error('Error sending message:', error);
-            // Update the empty assistant message with error
+            // Update the assistant message with an appropriate error
+            const errorContent = error.name === 'AbortError'
+                ? '⚠️ Request timed out. The server may be waking up — please try again in a moment.'
+                : '⚠️ Failed to connect to the server. Please try again.';
             setMessages(prev => {
                 const updated = [...prev];
-                if (updated.length > 0 && updated[updated.length - 1].role === 'assistant' && !updated[updated.length - 1].content) {
+                if (updated.length > 0 && updated[updated.length - 1].role === 'assistant') {
                     updated[updated.length - 1] = {
                         ...updated[updated.length - 1],
-                        content: '⚠️ Failed to connect. Please try again.'
+                        content: updated[updated.length - 1].content || errorContent
                     };
                 }
                 return updated;
             });
         } finally {
+            clearTimeout(timeoutId);
             setIsLoading(false);
         }
     };
