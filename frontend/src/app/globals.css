@@ -43,6 +43,7 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
     pointer-events: none;
 }
+
 /* Shared Logo Styles */
 .hero-logo {
     position: absolute;
@@ -52,6 +53,8 @@ html.lenis body {
     align-items: center;
     gap: 0.8rem;
     z-index: 100;
+    height: 32px;
+    width: 199px;
 }
 
 .logo-img {
